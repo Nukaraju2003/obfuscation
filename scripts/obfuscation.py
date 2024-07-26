@@ -8,7 +8,7 @@ from tensorflow.keras.layers import Add, Dense, Input
 from tensorflow.keras.models import Model
 
 # Load the trained model
-model_path = 'trymodel.h5'
+model_path = 'h5 models\\trymodel.h5'
 model = load_model(model_path)
 
 def extract_model_info(model):
@@ -121,5 +121,5 @@ model_info = ensure_unique_layer_names(model_info)
 obfuscated_model = build_obfuscated_model(model_info)
 
 # Save the obfuscated model
-obfuscated_model_path = 'obfuscated_model.h5'
+obfuscated_model_path = 'h5 models\\obfuscated_model.h5'
 obfuscated_model.save(obfuscated_model_path)
