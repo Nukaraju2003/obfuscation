@@ -1,6 +1,6 @@
 # Obfuscation
 
-## code extracts and obfuscates a TensorFlow Keras model's layer details, modifies the architecture by adding shortcuts and extra layers, and then reconstructs and saves the obfuscated model.
+## Code extracts and obfuscates a TensorFlow Keras model's layer details, modifies the architecture by adding shortcuts and extra layers, and then reconstructs and saves the obfuscated model.
 
 1 .  The code loads a trained Keras model, extracts detailed information about its layers, and saves this information to a JSON file. <br>
 2 .  Obfuscate Layer Names 
