@@ -1,6 +1,6 @@
 ## obfuscation of .h5 model 
 
-1 .  The code loads a trained Keras model, extracts detailed information about its layers, and saves this information to a JSON file.
+1 .  The code loads a trained Keras model, extracts detailed information about its layers, and saves this information to a JSON file. <br>
 2 .  Obfuscate Layer Names 
 
 
