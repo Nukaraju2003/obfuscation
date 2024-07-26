@@ -1,4 +1,5 @@
 ## The code loads a trained Keras model, extracts detailed information about its layers, and saves this information to a JSON file.
+## functions
 
 ### Steps followed here are
 - Parameter encapsulation
