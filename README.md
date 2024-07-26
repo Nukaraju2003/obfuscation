@@ -12,6 +12,7 @@
 - Shortcut injection
 - Extra layer injection
 
+for more info: https://docs.google.com/document/d/1rm3DMc_ye_7aPDrB4i2MhuqsGvy8oGxkHZ0czYoO39Q/edit?usp=sharing 
 ## Reference paper
 [ModelObfuscator: Obfuscating Model Information to Protect Deployed ML-Based Systems](https://arxiv.org/pdf/2306.06112)<br>
 ISSTA ’23, July 17–21, 2023, Seattle, WA, USA Mingyi Zhou, Xiang Gao, Jing Wu, John Grundy, Xiao Chen, Chunyang Chen, and Li Li
