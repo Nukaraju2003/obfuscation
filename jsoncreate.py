@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 # Load the trained model
-model_path = 'trymodel.h5'
+model_path = 'h5 models\\trymodel.h5'
 model = load_model(model_path)
 
 import json
