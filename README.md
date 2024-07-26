@@ -13,5 +13,5 @@
 - Extra layer injection
 
 ## Reference paper
-ModelObfuscator: Obfuscating Model Information to Protect Deployed ML-Based Systems <br>
+ModelObfuscator: Obfuscating Model Information to Protect Deployed ML-Based Systems [https://arxiv.org/pdf/2306.06112]<br>
 ISSTA ’23, July 17–21, 2023, Seattle, WA, USA Mingyi Zhou, Xiang Gao, Jing Wu, John Grundy, Xiao Chen, Chunyang Chen, and Li Li
