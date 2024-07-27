@@ -12,8 +12,8 @@
 - Shortcut injection
 - Extra layer injection
 
-  ### Accuracy :
-  - From 0% Accuracy to 3% Accuracy increased
+### Accuracy :
+- From 0% Accuracy to 3% Accuracy increased
 
 for more info: https://docs.google.com/document/d/1rm3DMc_ye_7aPDrB4i2MhuqsGvy8oGxkHZ0czYoO39Q/edit?usp=sharing 
 ## Reference paper
