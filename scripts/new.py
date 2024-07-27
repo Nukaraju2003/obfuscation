@@ -1,3 +1,7 @@
+import json
+import base64
+import numpy as np
+from tensorflow.keras.models import model_from_json
 from tensorflow.keras.models import load_model
 
 # Load the original model
@@ -7,9 +11,6 @@ model = load_model('h5 models\\trymodel.h5')
 model_config = model.to_json()
 model_weights = model.get_weights()
 
-from tensorflow.keras.models import model_from_json
-import json
-
 # Modify model configuration to obfuscate layer names
 model_config_dict = json.loads(model_config)
 for layer in model_config_dict['config']['layers']:
@@ -17,12 +18,10 @@ for layer in model_config_dict['config']['layers']:
 
 # Save the obfuscated configuration
 obfuscated_model_config = json.dumps(model_config_dict)
-with open('obfuscated_model_config.json', 'w') as f:
+with open('jsonfiles\\obfuscated_model_config.json', 'w') as f:
     f.write(obfuscated_model_config)
 
 
-import base64
-import numpy as np
 
 def encode_weights(weights):
     encoded_weights = []

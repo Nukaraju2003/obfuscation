@@ -26,6 +26,6 @@ def extract_model_info(model):
 model_info = extract_model_info(model)
 
 # Save model information to a JSON file
-with open('model_info.json', 'w') as f:
+with open('jsonfiles\\model_info.json', 'w') as f:
     json.dump(model_info, f, indent=4)
 
