@@ -1,68 +1,66 @@
-# import json
-# from tensorflow.keras.models import model_from_json
-# from tensorflow.keras.models import load_model
-
-# # Load the original model
-# model = load_model('h5 models\\trymodel.h5')
-
-# # Get model configuration and weights
-# model_config = model.to_json()
-# model_weights = model.get_weights()
-
-# # Modify model configuration to obfuscate layer names
-# model_config_dict = json.loads(model_config)
-# for layer in model_config_dict['config']['layers']:
-#     layer['config']['name'] = layer['config']['name'] + '_obf'
-
-# # Save the obfuscated configuration
-# obfuscated_model_config = json.dumps(model_config_dict)
-# with open('jsonfiles\\obfuscated_model_config.json', 'w') as f:
-#     f.write(obfuscated_model_config)
-
-# # Recreate the model from the obfuscated configuration
-# obfuscated_model = model_from_json(obfuscated_model_config)
-
-# # Set weights to the model
-# obfuscated_model.set_weights(model_weights)
-
-# # Save the obfuscated model
-# obfuscated_model.save('h5 models\\newobfuscated_model.h5')
-
-
 import json
 import numpy as np
-from tensorflow.keras.models import model_from_json, load_model
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import deserialize as layer_deserialize
+from tensorflow.keras.optimizers import deserialize as optimizer_deserialize
+from tensorflow.keras.losses import get as get_loss
 
-# Load the original model
-model = load_model('h5 models//trymodel.h5')
+# Ensure LSTM and any other custom layers are registered
+custom_objects = {
+    'LSTM': tf.keras.layers.LSTM,
+    'Dense': tf.keras.layers.Dense,  # Add other layers as needed
+    'Dropout': tf.keras.layers.Dropout
+}
 
-# Get model configuration and weights
-model_config = model.to_json()
-model_weights = model.get_weights()
+# Load model information from the JSON file
+json_path = 'jsonfiles\\model_info.json'
+with open(json_path, 'r') as f:
+    model_info = json.load(f)
 
-# Modify model configuration to obfuscate layer names
-model_config_dict = json.loads(model_config)
-for layer in model_config_dict['config']['layers']:
-    layer['config']['name'] = layer['config']['name'] + '_obf'
+# Reconstruct the model
+model = Sequential()
 
-# Save the obfuscated configuration
-obfuscated_model_config = json.dumps(model_config_dict)
-with open('jsonfiles//obfuscated_model_config.json', 'w') as f:
-    f.write(obfuscated_model_config)
+# Add layers
+for layer_info in model_info['layers']:
+    layer = layer_deserialize({
+        'class_name': layer_info['class_name'],
+        'config': layer_info['config']
+    }, custom_objects=custom_objects)
+    model.add(layer)
 
-# Recreate the model from the obfuscated configuration
-obfuscated_model = model_from_json(obfuscated_model_config)
+# Logging function to check weight shapes
+def log_weights(layer, weights):
+    print(f"Layer name: {layer.name}")
+    print(f"Layer expects {len(layer.weights)} weights.")
+    print(f"Provided weights: {len(weights)}")
+    for i, (w, lw) in enumerate(zip(weights, layer.weights)):
+        print(f"Weight {i} shape (provided): {np.array(w).shape}")
+        print(f"Weight {i} shape (expected): {lw.shape}")
 
-# Set the original weights to the model
-obfuscated_model.set_weights(model_weights)
+# Set weights
+for layer, layer_info in zip(model.layers, model_info['layers']):
+    weights = [np.array(w) for w in layer_info['weights']]
+    log_weights(layer, weights)
+    try:
+        layer.set_weights(weights)
+    except ValueError as e:
+        print(f"Error setting weights for layer {layer.name}: {e}")
 
-# Save the obfuscated model
-obfuscated_model.save('h5 models//newobfuscated_model.h5')
+# Compile the model
+optimizer = optimizer_deserialize({
+    'class_name': model_info['optimizer']['class_name'],
+    'config': model_info['optimizer']['config']
+})
 
-# Verify the obfuscated model
-test_data = np.random.random((10, *model.input_shape[1:]))
-original_predictions = model.predict(test_data)
-obfuscated_predictions = obfuscated_model.predict(test_data)
+# Ensure loss is in the correct format
+loss = model_info['loss']
+if isinstance(loss, str):
+    loss = get_loss(loss)
 
-# Compare predictions
-assert np.allclose(original_predictions, obfuscated_predictions), "Model predictions differ after obfuscation."
+model.compile(optimizer=optimizer, loss=loss, metrics=model_info['metrics'])
+
+# Save the reconstructed model as an .h5 file
+model.save('reconstructed_model.h5')
+
+print("Model reconstructed and saved successfully as 'reconstructed_model.h5'.")
