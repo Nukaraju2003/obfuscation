@@ -1,4 +1,3 @@
-
 import json
 import numpy as np
 from keras.models import model_from_json
@@ -22,6 +21,6 @@ loaded_model.set_weights(model_weights)
 loaded_model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Save the complete model to an .h5 file
-loaded_model.save("h5 models\\obfuscatedmodel.h5")
+loaded_model.save("h5 models\\work\\obfuscatemodel.h5")
 
-print("Model loaded, compiled, and saved to model.h5")
+print("Model loaded, compiled, and saved to obfuscatemodel.h5")
