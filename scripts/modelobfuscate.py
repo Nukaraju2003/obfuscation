@@ -4,7 +4,7 @@ import numpy as np
 from keras.models import model_from_json
 
 # Load the model architecture from the JSON file
-with open("model_architecture_obfuscated.json", "r") as json_file:
+with open("jsonfiles\\model_architecture_obfuscated.json", "r") as json_file:
     model_json = json_file.read()
 loaded_model = model_from_json(model_json)
 
@@ -22,6 +22,6 @@ loaded_model.set_weights(model_weights)
 loaded_model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Save the complete model to an .h5 file
-loaded_model.save("model.h5")
+loaded_model.save("h5 models\\obfuscatedmodel.h5")
 
 print("Model loaded, compiled, and saved to model.h5")
